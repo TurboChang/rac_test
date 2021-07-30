@@ -4,6 +4,7 @@
 from faker import Faker
 from datetime import timedelta, datetime
 import datetime
+import asyncio
 import threading
 
 def db_cost(start_time):
@@ -34,22 +35,35 @@ class PtDataGen():
         col7 = fake.past_datetime(start_date=col6+timedelta(days=1),tzinfo=None)
         return col1, col2, col3, col4, col5, col6, col7
 
-    def get_datas(self):
+    def test(self):
+        lis = []
+        for i in range(self.num):
+            lis.append(self.fake_data())
+        return lis
+
+    async def get_datas(self):
         for row in range(0, self.num):
             self.data_list.append(self.fake_data())
         return self.data_list
 
-def thds(thd):
-    f = PtDataGen(100)
-    data = f.get_datas()
-    thread = [threading.Thread(target=data) for i in range(thd)]
-    for t in thread:
-        t.start()
-    for t in thread:
-        t.join()
+    async def append_func(self):
+        tasks = []
+        for i in range(100):
+            tasks.append(asyncio.create_task(self.get_datas()))
+        await asyncio.wait(tasks)
+
 
 if __name__ == '__main__':
-    print(thds(5))
+    start = datetime.datetime.now()
+    f = PtDataGen(4000)
+    asyncio.run(f.append_func())
+    db_cost(start)
+    print("-----------------------"+"\n\n")
+    print("-----------------------" + "\n\n")
+    begin = datetime.datetime.now()
+    g = PtDataGen(400000)
+    g.test()
+    db_cost(begin)
 
 
 
