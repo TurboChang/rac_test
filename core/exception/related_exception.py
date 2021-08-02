@@ -16,3 +16,7 @@ class RegressionException(Exception):
         return self.message
 
     __str__ = __repr__
+
+class FactoryException(RegressionException):
+    """FACTORY路径为找到"""
+    pass

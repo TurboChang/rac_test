@@ -7,14 +7,6 @@ import datetime
 import asyncio
 import threading
 
-def db_cost(start_time):
-    """
-    记录数据库操作耗时
-    """
-    stop_time = datetime.datetime.now()
-    ms = (stop_time - start_time)
-    print(str(ms.total_seconds())+'s')
-
 fake = Faker('zh_CN')
 
 class PtDataGen():
@@ -57,7 +49,6 @@ if __name__ == '__main__':
     begin = datetime.datetime.now()
     g = PtDataGen(100)
     print(g.get_datas())
-    db_cost(begin)
 
 
 
