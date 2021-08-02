@@ -35,34 +35,28 @@ class PtDataGen():
         col7 = fake.past_datetime(start_date=col6+timedelta(days=1),tzinfo=None)
         return col1, col2, col3, col4, col5, col6, col7
 
-    def test(self):
+    def get_datas(self):
         lis = []
         for i in range(self.num):
             lis.append(self.fake_data())
         return lis
 
-    async def get_datas(self):
-        for row in range(0, self.num):
-            self.data_list.append(self.fake_data())
-        return self.data_list
-
-    async def append_func(self):
-        tasks = []
-        for i in range(100):
-            tasks.append(asyncio.create_task(self.get_datas()))
-        await asyncio.wait(tasks)
+    # async def get_datas(self):
+    #     for row in range(0, self.num):
+    #         self.data_list.append(self.fake_data())
+    #     return self.data_list
+    #
+    # async def append_func(self):
+    #     tasks = []
+    #     for i in range(100):
+    #         tasks.append(asyncio.create_task(self.get_datas()))
+    #     await asyncio.wait(tasks)
 
 
 if __name__ == '__main__':
-    start = datetime.datetime.now()
-    f = PtDataGen(4000)
-    asyncio.run(f.append_func())
-    db_cost(start)
-    print("-----------------------"+"\n\n")
-    print("-----------------------" + "\n\n")
     begin = datetime.datetime.now()
-    g = PtDataGen(400000)
-    g.test()
+    g = PtDataGen(100)
+    print(g.get_datas())
     db_cost(begin)
 
 
