@@ -18,14 +18,15 @@ def factory():
     plan = Plan()
     if plan:
         res = plan.get_testplan("Oracle")[0]
-        insert_data = OraDB(res, "rac_test", 100)
+        insert_data = OraDB(res, "rac_test", 2000)
 
         if insert_data:
-            start_time = datetime.datetime.now()
-            insert_data.insert_table()
-            db_cost(start_time)
+            # insert_data.threading()
+            insert_data.truncate_table()
     else:
         raise FactoryException('该数据库暂暂不支持，数据库：{0}'.format("Oracle"))
 
 if __name__ == '__main__':
+    start_time = datetime.datetime.now()
     factory()
+    db_cost(start_time)

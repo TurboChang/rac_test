@@ -3,7 +3,7 @@
 
 
 class RegressionException(Exception):
-    """回归测试级别的异常基类"""
+    """异常基类"""
 
     def __init__(self, msg='', logger=None):
         self.message = msg

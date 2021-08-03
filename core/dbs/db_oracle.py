@@ -34,7 +34,6 @@ class InsertOracleDB:
 
     def __del__(self):
         try:
-            self.db.release()
             self.db.close()
         except cx_Oracle.Error as e:
             print(e)
@@ -57,6 +56,14 @@ class InsertOracleDB:
         conn.commit()
         cursor.close()
 
+    def __truncate(self):
+        conn = self.db.acquire()
+        cursor = conn.cursor()
+        sql = "truncate table {0}".format(self.table_name)
+        cursor.execute(sql)
+        conn.commit()
+        cursor.close()
+
     @db_step("Oracle Insert Batch")
     def insert_table(self):
         print("表名: {0}".format(self.table_name))
@@ -65,7 +72,7 @@ class InsertOracleDB:
         print("SQL: {0}".format(sql))
         self.__execute(sql, self.datas)
 
-    def __threading(self):
+    def threading(self):
         # numberOfThreads = self.thr
         threadArray = []
 
@@ -81,5 +88,5 @@ class InsertOracleDB:
     @db_step("删除Oracle表")
     def truncate_table(self):
         print("表名: {0}".format(self.table_name))
-        results = self.__execute(self.sql("truncate_table").format(self.table_name), False)
+        results = self.__truncate()
         return results

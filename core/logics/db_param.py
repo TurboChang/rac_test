@@ -70,13 +70,6 @@ class GetPlan:
                 raise GetPlanException('sheet页{0}中并无数据'.format(sheet_name))
         return cls
 
-if __name__ == '__main__':
-    g=PtDataGen(1)
-    f=g.get_datas()
-    print(type(f))
-    print(type(f[0]))
-    print(f)
-
 
 
 
