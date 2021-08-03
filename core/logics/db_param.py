@@ -3,8 +3,7 @@
 
 from faker import Faker
 from core.exception.related_exception import GetPlanException
-from datetime import timedelta, datetime
-import datetime
+from datetime import timedelta
 import asyncio
 import threading
 import openpyxl
@@ -25,9 +24,11 @@ class PtDataGen():
         col2 = f"{fake.pyint(200,350):05}"
         col3 = pt_profile['name']
         col4 = pt_profile['sex']
-        col5 = fake.pyint(15,50)
-        col6 = fake.past_datetime(start_date="-30d",tzinfo=None)
-        col7 = fake.past_datetime(start_date=col6+timedelta(days=1),tzinfo=None)
+        col5 = f"{fake.pyint(15,50)}"
+        # col6 = fake.past_datetime(start_date="-30d",tzinfo=None)
+        # col7 = fake.past_datetime(start_date=col6+timedelta(days=1),tzinfo=None)
+        col6 = fake.street_address()
+        col7 = fake.domain_name()
         return col1, col2, col3, col4, col5, col6, col7
 
     def get_datas(self):
@@ -69,12 +70,12 @@ class GetPlan:
                 raise GetPlanException('sheet页{0}中并无数据'.format(sheet_name))
         return cls
 
-
 if __name__ == '__main__':
-    # g = PtDataGen(100)
-    # print(g.get_datas())
-    f = GetPlan()
-    print(f.get_testplan("Oracle"))
+    g=PtDataGen(1)
+    f=g.get_datas()
+    print(type(f))
+    print(type(f[0]))
+    print(f)
 
 
 
