@@ -14,19 +14,28 @@ def db_cost(start_time):
     ms = (stop_time - start_time)
     print(str(ms.total_seconds())+'s')
 
-def factory():
+def create_increment_data(db, tab_name, batch):
     plan = Plan()
     if plan:
-        res = plan.get_testplan("Oracle")[0]
-        insert_data = OraDB(res, "rac_test", 2000)
+        res = plan.get_testplan(db)[0]
+        insert_data = OraDB(res, tab_name, round(int(batch)/5))
 
         if insert_data:
-            # insert_data.threading()
-            insert_data.truncate_table()
+            start_time = datetime.datetime.now()
+            insert_data.threading()
+            db_cost(start_time)
     else:
-        raise FactoryException('该数据库暂暂不支持，数据库：{0}'.format("Oracle"))
+        raise FactoryException('该数据库暂暂不支持，数据库：{0}'.format(db))
 
-if __name__ == '__main__':
-    start_time = datetime.datetime.now()
-    factory()
-    db_cost(start_time)
+def truncate_data(db, tab_name, batch):
+    plan = Plan()
+    if plan:
+        res = plan.get_testplan(db)[0]
+        insert_data = OraDB(res, tab_name, round(int(batch)/5))
+
+        if insert_data:
+            start_time = datetime.datetime.now()
+            insert_data.truncate_table()
+            db_cost(start_time)
+    else:
+        raise FactoryException('该数据库暂暂不支持，数据库：{0}'.format(db))

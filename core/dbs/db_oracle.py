@@ -67,7 +67,6 @@ class InsertOracleDB:
     @db_step("Oracle Insert Batch")
     def insert_table(self):
         print("表名: {0}".format(self.table_name))
-        print("数据: {0}".format(self.datas))
         sql = self.insert_sql.format(self.table_name) + self.values_sql
         print("SQL: {0}".format(sql))
         self.__execute(sql, self.datas)

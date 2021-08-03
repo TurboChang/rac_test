@@ -52,7 +52,7 @@ class GetPlan:
     alias = "EXCEL"
 
     def __init__(self):
-        self.excel_file = "../conf/TestPlan.xlsx"
+        self.excel_file = "core/conf/TestPlan.xlsx"
 
     def get_testplan(self, sheet_name=None):
         cls = []

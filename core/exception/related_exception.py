@@ -24,3 +24,7 @@ class FactoryException(RegressionException):
 class GetPlanException(RegressionException):
     """FACTORY路径为找到"""
     pass
+
+class MainException(RegressionException):
+    """FACTORY路径为找到"""
+    pass
