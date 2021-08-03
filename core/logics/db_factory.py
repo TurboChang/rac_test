@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from core.exception.related_exception import *
+from core.exception.related_exception import FactoryException
 import datetime
 
 def db_cost(start_time):

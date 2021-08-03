@@ -2,10 +2,13 @@
 # author TurboChang
 
 from faker import Faker
+from core.exception.related_exception import GetPlanException
 from datetime import timedelta, datetime
 import datetime
 import asyncio
 import threading
+import openpyxl
+import os
 
 fake = Faker('zh_CN')
 
@@ -44,11 +47,34 @@ class PtDataGen():
     #         tasks.append(asyncio.create_task(self.get_datas()))
     #     await asyncio.wait(tasks)
 
+class GetPlan:
+    alias = "EXCEL"
+
+    def __init__(self):
+        self.excel_file = "../conf/TestPlan.xlsx"
+
+    def get_testplan(self, sheet_name=None):
+        cls = []
+        excel_path = os.path.abspath(os.path.join(self.excel_file))
+        wb = openpyxl.load_workbook(excel_path)
+        sheet = wb[sheet_name]
+        rows = sheet.rows
+
+        for i, row in enumerate(rows):
+            if i == 0:
+                continue
+            columns = [cell.value for cell in row]
+            cls.append(columns)
+            if row is False:
+                raise GetPlanException('sheet页{0}中并无数据'.format(sheet_name))
+        return cls
+
 
 if __name__ == '__main__':
-    begin = datetime.datetime.now()
-    g = PtDataGen(100)
-    print(g.get_datas())
+    # g = PtDataGen(100)
+    # print(g.get_datas())
+    f = GetPlan()
+    print(f.get_testplan("Oracle"))
 
 
 
