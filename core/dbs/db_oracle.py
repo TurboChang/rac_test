@@ -89,45 +89,45 @@ class InsertOracleDB(object):
         return results
 
 
-class OraCompare(InsertOracleDB):
-    ALIAS = "OracleCompare"
-
-    def __del__(self):
-        try:
-            self.db.close()
-        except cx_Oracle.Error as e:
-            print(e)
-
-    def __connect(self):
-        print("连接Oracle数据库 host: {0}, port: {1}, user: {2}, passwd: {3}, db: {4}".format(
-            self.host, self.port, self.user, self.password, self.database))
-        db_dsn = self.host + ":" + str(self.port) + "/" + self.database
-        print("db_dsn: {0}".format(db_dsn))
-        db = cx_Oracle.SessionPool(self.user, str(self.password), db_dsn, min=5, max=15, increment=1, threaded=True,
-                                   encoding="UTF-8", getmode=cx_Oracle.SPOOL_ATTRVAL_WAIT)
-        return db
-
-    @db_call
-    def __query(self, sql):
-        rowLimit = 5000
-        conn = self.db.acquire()
-        cursor = conn.cursor()
-        print("SQL: {0}".format(sql))
-        cursor.execute(sql)
-        row_result = cursor.fetmany(rowLimit)
-
-        while True:
-            if not row_result:
-                break
-
-            row_result_list = []
-
-            for i, row in enumerate(row_result):
-                sourceKeyString = '';
-                sourceRowObject = {}
-
-                for j, sourceRowValue in enumerate(row):
-                    sourceRowObject[]
-
-        cursor.close()
+# class OraCompare(InsertOracleDB):
+#     ALIAS = "OracleCompare"
+#
+#     def __del__(self):
+#         try:
+#             self.db.close()
+#         except cx_Oracle.Error as e:
+#             print(e)
+#
+#     def __connect(self):
+#         print("连接Oracle数据库 host: {0}, port: {1}, user: {2}, passwd: {3}, db: {4}".format(
+#             self.host, self.port, self.user, self.password, self.database))
+#         db_dsn = self.host + ":" + str(self.port) + "/" + self.database
+#         print("db_dsn: {0}".format(db_dsn))
+#         db = cx_Oracle.SessionPool(self.user, str(self.password), db_dsn, min=5, max=15, increment=1, threaded=True,
+#                                    encoding="UTF-8", getmode=cx_Oracle.SPOOL_ATTRVAL_WAIT)
+#         return db
+#
+#     @db_call
+#     def __query(self, sql):
+#         rowLimit = 5000
+#         conn = self.db.acquire()
+#         cursor = conn.cursor()
+#         print("SQL: {0}".format(sql))
+#         cursor.execute(sql)
+#         row_result = cursor.fetmany(rowLimit)
+#
+#         while True:
+#             if not row_result:
+#                 break
+#
+#             row_result_list = []
+#
+#             for i, row in enumerate(row_result):
+#                 sourceKeyString = '';
+#                 sourceRowObject = {}
+#
+#                 for j, sourceRowValue in enumerate(row):
+#                     sourceRowObject[]
+#
+#         cursor.close()
 
