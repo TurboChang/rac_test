@@ -74,13 +74,11 @@ FROM USER_CONSTRAINTS TC
     keyCursor.close()
 
     sourceRowQueryString = "SELECT * FROM " + SOURCE_DATA_BASE_NAME + "." + SOURCE_TABLE_NAME
-    print(sourceRowQueryString)
     sourceRowConnection = cx_Oracle.connect(SOURCE_DSN_DICT)
     sourceRowCursor = sourceRowConnection.cursor()
     sourceRowCursor.execute(sourceRowQueryString)
 
     targetRowQueryString = "SELECT * FROM " + TARGET_DATA_BASE_NAME + "." + TARGET_TABLE_NAME
-    print(targetRowQueryString)
     targetRowConnection = cx_Oracle.connect(TARGET_DSN_DICT)
     targetRowCursor = targetRowConnection.cursor()
     targetRowCursor.execute(sourceRowQueryString)
