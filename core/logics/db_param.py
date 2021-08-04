@@ -70,6 +70,9 @@ class GetPlan:
                 raise GetPlanException('sheet页{0}中并无数据'.format(sheet_name))
         return cls
 
+class ComPare:
+    pass
+
 
 
 
