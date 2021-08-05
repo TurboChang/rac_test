@@ -3,12 +3,12 @@
 
 # Oracle
 SOURCE_DSN_DICT = "dp_test/123456@39.105.17.117:1521/orcl"
-SOURCE_DATA_BASE_NAME = "dp_sink"
-SOURCE_TABLE_NAME = "t1"
+SOURCE_DATA_BASE_NAME = "dp_test"
+SOURCE_TABLE_NAME = ["t2", "t1"]
 
 TARGET_DSN_DICT = "dp_sink/123456@39.105.17.117:1521/orcl"
-TARGET_DATA_BASE_NAME = "dp_test"
-TARGET_TABLE_NAME = "t1"
+TARGET_DATA_BASE_NAME = "dp_sink"
+# TARGET_TABLE_NAME = "t2"
 
 columnQuery = """SELECT COLUMN_NAME 
     FROM ALL_TAB_COLUMNS 
@@ -24,6 +24,6 @@ FROM USER_CONSTRAINTS TC
                         AND KU.TABLE_NAME = UPPER(:1)
                         AND KU.OWNER = UPPER(:2)"""
 
-sourceRowQueryString = "SELECT * FROM " + SOURCE_DATA_BASE_NAME + "." + SOURCE_TABLE_NAME
-targetRowQueryString = "SELECT * FROM " + TARGET_DATA_BASE_NAME + "." + TARGET_TABLE_NAME
+sourceRowQueryString = "SELECT * FROM " + SOURCE_DATA_BASE_NAME + ".{0}"
+# targetRowQueryString = "SELECT * FROM " + TARGET_DATA_BASE_NAME + "." + TARGET_TABLE_NAME
 

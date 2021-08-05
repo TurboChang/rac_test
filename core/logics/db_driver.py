@@ -45,3 +45,6 @@ def db_step(step_name):
         return inner_wrapper
 
     return wrapper
+
+def logging():
+    pass

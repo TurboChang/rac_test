@@ -3,9 +3,11 @@
 
 import json
 from operator import itemgetter
+import datetime
 
 
-def compare(sourceResultList, targetResultList, matchFile, unMatchFile, key):
+def compare(sourceResultList, targetResultList, matchFile, unMatchFile, key, sourceTab):
+    current_time = datetime.datetime.now()
     global sourceItem, targetItem
     MatchFile = open(matchFile, "a", encoding="utf-8")
     UnMatchFile = open(unMatchFile, "a", encoding="utf-8")
@@ -29,7 +31,7 @@ def compare(sourceResultList, targetResultList, matchFile, unMatchFile, key):
                 targetPointer = targetPointer + 1
                 sourcePointer = sourcePointer + 1
                 if targetItem == sourceItem:
-                    MatchFile.write(sourceItem[key] + "\n")
+                    MatchFile.write(str(current_time) + " The table [" + sourceTab + "] different row is: " + sourceItem[key] + "\n")
                 else:
                     for item in sourceItem:
                         if sourceItem[item] != targetItem[item]:

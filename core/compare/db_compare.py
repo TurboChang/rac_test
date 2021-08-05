@@ -14,10 +14,10 @@ key = "compareKey"
 
 matchFile = r"matchfilename.txt"
 unMatchFile = r"unmatchfilename.txt"
-if os.path.exists(matchFile):
-    os.remove(matchFile)
-if os.path.exists(unMatchFile):
-    os.remove(unMatchFile)
+# if os.path.exists(matchFile):
+#     os.remove(matchFile)
+# if os.path.exists(unMatchFile):
+#     os.remove(unMatchFile)
 
 records_processed = 0
 row_limit = 50000
@@ -25,7 +25,8 @@ row_limit = 50000
 class DbCompare:
     ALIAS = "Compare"
 
-    def __init__(self):
+    def __init__(self, tabName):
+        self.tab_name = tabName
         pass
 
     def __connect(self, db_conn):
@@ -37,7 +38,7 @@ class DbCompare:
 
     def get_col_list(self):
         cursor = self.__connect(SOURCE_DSN_DICT)
-        cursor.execute(columnQuery, (SOURCE_TABLE_NAME, SOURCE_DATA_BASE_NAME))
+        cursor.execute(columnQuery, (self.tab_name, SOURCE_DATA_BASE_NAME))
         column_list = []
 
         while True:
@@ -50,7 +51,7 @@ class DbCompare:
 
     def get_key_list(self):
         cursor = self.__connect(SOURCE_DSN_DICT)
-        key_result = cursor.execute(keyQuery, (SOURCE_TABLE_NAME, SOURCE_DATA_BASE_NAME))
+        key_result = cursor.execute(keyQuery, (self.tab_name, SOURCE_DATA_BASE_NAME))
         key_list = []
 
         for _, key_row in enumerate(key_result):
@@ -60,13 +61,14 @@ class DbCompare:
     def get_source_data(self):
         source_row_object_list = []
         cursor = self.__connect(SOURCE_DSN_DICT)
-        cursor.execute(sourceRowQueryString)
+        sql = sourceRowQueryString.format(self.tab_name)
+        cursor.execute(sql)
         col_list = self.get_col_list()
         key_list = self.get_key_list()
 
         while True:
             source_row_result = cursor.fetchmany(row_limit)
-            print(source_row_result)
+            # print(source_row_result)
             if not source_row_result:
                 break
 
@@ -84,13 +86,14 @@ class DbCompare:
     def get_target_data(self):
         target_row_object_list = []
         cursor = self.__connect(TARGET_DSN_DICT)
-        cursor.execute(sourceRowQueryString)
+        sql = sourceRowQueryString.format(self.tab_name)
+        cursor.execute(sql)
         col_list = self.get_col_list()
         key_list = self.get_key_list()
 
         while True:
             target_row_result = cursor.fetchmany(row_limit)
-            print(target_row_result)
+            # print(target_row_result)
             if not target_row_result:
                 break
 
@@ -103,20 +106,23 @@ class DbCompare:
                         targetKeyString = targetKeyString + str(targetRowValue)
                 targetRowObject["compareKey"] = targetKeyString
                 target_row_object_list.append(targetRowObject)
+        # print(target_row_object_list)
         return target_row_object_list
 
     def db_row_compare(self):
         begin_time = time.time()
         source = self.get_source_data()
         target = self.get_target_data()
-        compare(source, target, matchFile, unMatchFile, key)
+        tabName = SOURCE_DATA_BASE_NAME + "." + self.tab_name
+        compare(source, target, matchFile, unMatchFile, key, tabName)
         recordsProcessed = records_processed + len(target)
         print(str(recordsProcessed) + " rows compared")
         print("Batch compare time for " + str(len(target)) + " rows: " + str(time.time() - begin_time))
 
 if __name__ == '__main__':
-    f = DbCompare()
-    f.db_row_compare()
+    for tab in SOURCE_TABLE_NAME:
+        f = DbCompare(tab)
+        f.db_row_compare()
 
 
 
