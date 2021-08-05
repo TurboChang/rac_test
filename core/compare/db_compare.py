@@ -1,7 +1,6 @@
 # encoding: utf-8
 # author TurboChang
 
-import os
 import time
 import warnings
 import cx_Oracle
@@ -12,8 +11,8 @@ warnings.filterwarnings("ignore")
 begin_time = time.time()
 key = "compareKey"
 
-matchFile = r"matchfilename.txt"
-unMatchFile = r"unmatchfilename.txt"
+matchFile = r"core/report/matchfilename.txt"
+unMatchFile = r"core/report/unmatchfilename.txt"
 # if os.path.exists(matchFile):
 #     os.remove(matchFile)
 # if os.path.exists(unMatchFile):
@@ -30,7 +29,7 @@ class DbCompare:
         pass
 
     def __connect(self, db_conn):
-        print('连接Oracle数据库: {0}'.format(db_conn))
+        # print('连接Oracle数据库: {0}'.format(db_conn))
         db = cx_Oracle.connect(db_conn)
         db.ping()
         cursor = db.cursor()
@@ -118,11 +117,6 @@ class DbCompare:
         recordsProcessed = records_processed + len(target)
         print(str(recordsProcessed) + " rows compared")
         print("Batch compare time for " + str(len(target)) + " rows: " + str(time.time() - begin_time))
-
-if __name__ == '__main__':
-    for tab in SOURCE_TABLE_NAME:
-        f = DbCompare(tab)
-        f.db_row_compare()
 
 
 

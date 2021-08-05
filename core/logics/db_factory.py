@@ -4,7 +4,6 @@
 from core.exception.related_exception import FactoryException
 from core.logics.db_param import GetPlan as Plan
 from core.dbs.db_oracle import InsertOracleDB as OraDB
-from core.compare.db_compare import DbCompare as dbcp
 import datetime
 
 def db_cost(start_time):
@@ -41,6 +40,15 @@ def truncate_data(db, tab_name, batch):
     else:
         raise FactoryException('该数据库暂暂不支持，数据库：{0}'.format(db))
 
-def db_compare():
+def update_data(db, tab_name, batch):
+    plan = Plan()
+    if plan:
+        res = plan.get_testplan(db)[0]
+        insert_data = OraDB(res, tab_name, int(batch))
 
-    pass
+        if insert_data:
+            start_time = datetime.datetime.now()
+            insert_data.update_table(start_time)
+            db_cost(start_time)
+    else:
+        raise FactoryException('该数据库暂暂不支持，数据库：{0}'.format(db))
