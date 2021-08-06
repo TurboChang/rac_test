@@ -24,6 +24,7 @@ FROM USER_CONSTRAINTS TC
                         AND KU.TABLE_NAME = UPPER(:1)
                         AND KU.OWNER = UPPER(:2)"""
 
-sourceRowQueryString = "SELECT * FROM " + SOURCE_DATA_BASE_NAME + ".{0}"
+sourceTabMaxDate = "select max(col_date) from " + SOURCE_DATA_BASE_NAME + ".{0}"
+sourceRowQueryString = "select * from " + SOURCE_DATA_BASE_NAME + ".{0} where col_date >= to_date('{1}', 'yyyy-mm-dd hh24:mi:ss')"
 # targetRowQueryString = "SELECT * FROM " + TARGET_DATA_BASE_NAME + "." + TARGET_TABLE_NAME
 

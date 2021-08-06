@@ -39,17 +39,18 @@ runner:                 框架执行脚本
 
 ### runner.py使用说明
 ```angular2html
+usage: runner.py [-h] [--ops [{insert,update,trunc,compare}]] [--db DB] [--batch BATCH]
+
 DataPipeline Runner 用法 通过指定以下参数执行自动化增量数据写入
 
 optional arguments:
-
   -h, --help            show this help message and exit
-  --ops [{trunc,insert}]
-                        param : 执行指定操作(写入/清空数据). (default: None)
-  --db DB, -d DB        param : 执行指定测试数据库. (default: Oracle)
-  --tab TAB, -t TAB     param : 执行指定的测试表. (default: rac_test)
+  --ops [{insert,update,trunc,compare}]
+                        param 4: 执行指定操作(写入/清空数据). (default: None)
+  --db DB, -d DB        param 1: 执行指定测试数据库类型. (default: Oracle)
   --batch BATCH, -b BATCH
-                        param : 执行指定BATCH大小. (default: 2000)
+                        param 3: 执行指定BATCH大小. (default: 2000)
+
 
 ```
 

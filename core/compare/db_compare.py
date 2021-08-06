@@ -6,6 +6,8 @@ import warnings
 import cx_Oracle
 from core.compare.utilities import compare
 from core.conf.sql_config import *
+import os
+import zipfile
 
 warnings.filterwarnings("ignore")
 begin_time = time.time()
@@ -26,7 +28,19 @@ class DbCompare:
 
     def __init__(self, tabName):
         self.tab_name = tabName
-        pass
+        self.max_date = self._get_max_date()[0].strftime("%Y-%m-%d %H:%M:%S")
+        self.file_date = self._get_max_date()[0].strftime("%Y-%m-%d-%H%M%S")
+
+    def __zip_file(self):
+        try:
+            zip_file = r"core/report/" + str(self.file_date) + "-" + self.tab_name + ".zip"
+            if not os.path.exists(zip_file):
+                with zipfile.ZipFile(zip_file, mode="w") as f:
+                    f.write(matchFile)
+                    f.close()
+        except Exception as e:
+            print("异常对象的类型是:%s" % type(e))
+            print("异常对象的内容是:%s" % e)
 
     def __connect(self, db_conn):
         # print('连接Oracle数据库: {0}'.format(db_conn))
@@ -34,6 +48,13 @@ class DbCompare:
         db.ping()
         cursor = db.cursor()
         return cursor
+
+    def _get_max_date(self):
+        cursor = self.__connect(SOURCE_DSN_DICT)
+        query = sourceTabMaxDate.format(self.tab_name)
+        cursor.execute(query)
+        result = cursor.fetchone()
+        return result
 
     def get_col_list(self):
         cursor = self.__connect(SOURCE_DSN_DICT)
@@ -60,7 +81,9 @@ class DbCompare:
     def get_source_data(self):
         source_row_object_list = []
         cursor = self.__connect(SOURCE_DSN_DICT)
-        sql = sourceRowQueryString.format(self.tab_name)
+        sql = sourceRowQueryString.format(self.tab_name, self.max_date)
+        # print(type(self.max_date[0]))
+        print("======SQL is: {0}======\n".format(sql))
         cursor.execute(sql)
         col_list = self.get_col_list()
         key_list = self.get_key_list()
@@ -85,7 +108,8 @@ class DbCompare:
     def get_target_data(self):
         target_row_object_list = []
         cursor = self.__connect(TARGET_DSN_DICT)
-        sql = sourceRowQueryString.format(self.tab_name)
+        sql = sourceRowQueryString.format(self.tab_name, self.max_date)
+        print("======SQL is: {0}======\n".format(sql))
         cursor.execute(sql)
         col_list = self.get_col_list()
         key_list = self.get_key_list()
@@ -114,6 +138,7 @@ class DbCompare:
         target = self.get_target_data()
         tabName = SOURCE_DATA_BASE_NAME + "." + self.tab_name
         compare(source, target, matchFile, unMatchFile, key, tabName)
+        self.__zip_file()
         recordsProcessed = records_processed + len(target)
         print(str(recordsProcessed) + " rows compared")
         print("Batch compare time for " + str(len(target)) + " rows: " + str(time.time() - begin_time))

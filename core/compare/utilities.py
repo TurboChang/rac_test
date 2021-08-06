@@ -5,7 +5,6 @@ import json
 from operator import itemgetter
 import datetime
 
-
 def compare(sourceResultList, targetResultList, matchFile, unMatchFile, key, sourceTab):
     current_time = datetime.datetime.now()
     global sourceItem, targetItem

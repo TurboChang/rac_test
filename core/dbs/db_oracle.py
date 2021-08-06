@@ -2,9 +2,7 @@
 # author TurboChang
 
 import threading
-
 import cx_Oracle
-
 from core.logics.db_driver import *
 from core.logics.db_param import PtDataGen as PD
 
@@ -108,10 +106,12 @@ class InsertOracleDB(object):
 
     @db_step("更新Oracle表")
     def update_table(self, now):
-        query = "select id from {0} where rownum <= {1} order by id desc".format(self.table_name, str(self.num))
+        query = "select id from " \
+                "(select id, rownum as rn from {0} order by rn desc) " \
+                "where rownum <= {1}".format(self.table_name, str(self.num))
         res_id = self.__fetchall(query)
         update = "update {0} set col1 = '{1}', col2 = '{2}', col3 = '{3}', col4 = '{4}', " \
-                 "col5 = '{5}', col6 = '{6}', col7 = '{7}' where id = {8}"
+                 "col5 = '{5}', col6 = '{6}', col7 = '{7}', col_date = sysdate where id = {8}"
 
         for id in res_id:
             print(id)
