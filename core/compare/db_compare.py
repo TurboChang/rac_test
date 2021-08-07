@@ -1,13 +1,15 @@
 # encoding: utf-8
 # author TurboChang
 
+import os
 import time
 import warnings
+import zipfile
+
 import cx_Oracle
+
 from core.compare.utilities import compare
 from core.conf.sql_config import *
-import os
-import zipfile
 
 warnings.filterwarnings("ignore")
 begin_time = time.time()
@@ -22,6 +24,7 @@ unMatchFile = r"core/report/unmatchfilename.txt"
 
 records_processed = 0
 row_limit = 50000
+
 
 class DbCompare:
     ALIAS = "Compare"
@@ -38,6 +41,8 @@ class DbCompare:
                 with zipfile.ZipFile(zip_file, mode="w") as f:
                     f.write(matchFile)
                     f.close()
+                os.remove(matchFile)
+                os.remove(unMatchFile)
         except Exception as e:
             print("异常对象的类型是:%s" % type(e))
             print("异常对象的内容是:%s" % e)
@@ -83,7 +88,7 @@ class DbCompare:
         cursor = self.__connect(SOURCE_DSN_DICT)
         sql = sourceRowQueryString.format(self.tab_name, self.max_date)
         # print(type(self.max_date[0]))
-        print("======SQL is: {0}======\n".format(sql))
+        # print("======SQL is: {0}======\n".format(sql))
         cursor.execute(sql)
         col_list = self.get_col_list()
         key_list = self.get_key_list()
@@ -109,7 +114,7 @@ class DbCompare:
         target_row_object_list = []
         cursor = self.__connect(TARGET_DSN_DICT)
         sql = sourceRowQueryString.format(self.tab_name, self.max_date)
-        print("======SQL is: {0}======\n".format(sql))
+        # print("======SQL is: {0}======\n".format(sql))
         cursor.execute(sql)
         col_list = self.get_col_list()
         key_list = self.get_key_list()
@@ -141,12 +146,5 @@ class DbCompare:
         self.__zip_file()
         recordsProcessed = records_processed + len(target)
         print(str(recordsProcessed) + " rows compared")
-        print("Batch compare time for " + str(len(target)) + " rows: " + str(time.time() - begin_time))
-
-
-
-
-
-
-
-
+        print("The table " + self.tab_name + " batch compare time for " + str(len(target)) + " rows, cost: " + str(
+            time.time() - begin_time))
