@@ -35,6 +35,7 @@ core.logics.db_driver:  装饰器
 core.logics.db_param:   Faker数据以及解析测试计划(excel)
 core.logics.db_factory: 增量数据写入/数据清除
 runner:                 框架执行脚本
+clean_arch:             删除7天前的Oracle归档日志
 ```
 
 ### runner.py使用说明
