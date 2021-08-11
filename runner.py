@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 from core.logics.db_factory import *
-from core.compare.db_compare import DbCompare as dbcp
+from core.compare.compare_data import CompareData as CD
 from core.exception.related_exception import MainException
 from core.conf.sql_config import *
 import argparse
@@ -41,8 +41,8 @@ class TestRunner:
             elif ops == "trunc":
                 return truncate_data(args.db, tab, args.batch)
             elif ops == "compare":
-                f = dbcp(tab)
-                return f.db_row_compare()
+                f = CD(tab)
+                return f.report()
             else:
                 raise MainException("方法: {0} 执行报错".format(args.db))
 
@@ -53,3 +53,5 @@ class TestRunner:
 
 if __name__ == '__main__':
     TestRunner().run()
+    #     f = dbcp("t1")
+    #     f.db_row_compare()
