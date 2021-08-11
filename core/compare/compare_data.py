@@ -6,6 +6,7 @@ import cx_Oracle
 import csv
 from csv_diff import load_csv, compare
 from core.conf.sql_config import *
+from core.exception.related_exception import CompareException
 
 report_file = r"core/report/compare.txt"
 compare_path = r"core/compare/"
@@ -72,5 +73,8 @@ class CompareData:
         self.data_csv(TARGET_DSN_DICT, "target.csv")
 
     def report(self):
-        # self._load_csv()
-        self.compare()
+        try:
+            self._load_csv()
+            self.compare()
+        except Exception as e:
+            raise CompareException('对比报告失败，原因：{0}'.format(e))

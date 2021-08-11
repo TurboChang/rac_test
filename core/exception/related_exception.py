@@ -28,3 +28,7 @@ class GetPlanException(RegressionException):
 class MainException(RegressionException):
     """FACTORY路径为找到"""
     pass
+
+class CompareException(RegressionException):
+    """FACTORY路径为找到"""
+    pass
