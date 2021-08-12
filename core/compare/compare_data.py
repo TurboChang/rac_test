@@ -62,11 +62,13 @@ class CompareData:
         source = load_csv(source_csv, key="ID")
         target = load_csv(target_csv, key="ID")
         diff = compare(target, source)
-        if not diff['changed'] is None:
+        if not diff['changed'] is None or not diff['added'] is None or diff['removed'] is None:
             fo = open(report_file, "a")
-            for changed in diff['changed']:
-                fo.write("{0}-table {1} changed is: ".format(self.current_time,self.tab_name) + str(changed) + "\n")
+            # for dif in diff:
+            fo.write("{0}-table \"{1}\" diff is: ".format(self.current_time,self.tab_name) + str(diff) + "\n")
             fo.close()
+        source_csv.close()
+        target_csv.close()
 
     def _load_csv(self):
         self.data_csv(SOURCE_DSN_DICT, "source.csv")
@@ -74,7 +76,7 @@ class CompareData:
 
     def report(self):
         try:
-            self._load_csv()
+            # self._load_csv()
             self.compare()
         except Exception as e:
             raise CompareException('对比报告失败，原因：{0}'.format(e))
