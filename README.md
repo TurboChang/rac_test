@@ -20,6 +20,8 @@
 | | |____related_exception.py
 |____README.md
 |____runner.py
+|____requirements.txt
+|____clean_arch.sh
 ```
 
 ### 文件夹结构介绍

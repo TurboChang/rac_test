@@ -1,15 +1,18 @@
 # encoding: utf-8
 # author TurboChang
 
-import datetime
-import cx_Oracle
 import csv
+import datetime
+
+import cx_Oracle
 from csv_diff import load_csv, compare
+
 from core.conf.sql_config import *
 from core.exception.related_exception import CompareException
 
 report_file = r"core/report/compare.txt"
 compare_path = r"core/compare/"
+
 
 class CompareData:
 
@@ -34,7 +37,7 @@ class CompareData:
 
     def data_csv(self, db, csv_name):
         cols_list = []
-        csv_file = open(csv_name, "w")
+        csv_file = open(compare_path + csv_name, "w")
         writer = csv.writer(csv_file, delimiter=",", lineterminator="\n", quoting=csv.QUOTE_NONNUMERIC)
 
         if db == SOURCE_DSN_DICT:
@@ -56,27 +59,38 @@ class CompareData:
             writer.writerow(row)
         csv_file.close()
 
+    def _load_csv(self):
+        self.data_csv(SOURCE_DSN_DICT, "source.csv")
+        self.data_csv(TARGET_DSN_DICT, "target.csv")
+
+    def _write_report(self, file, content):
+        fo = open(file, "a")
+        fo.write(content)
+        fo.close()
+
     def compare(self):
         source_csv = open(compare_path + "source.csv", "r")
         target_csv = open(compare_path + "target.csv", "r")
         source = load_csv(source_csv, key="ID")
         target = load_csv(target_csv, key="ID")
-        diff = compare(target, source)
-        if not diff['changed'] is None or not diff['added'] is None or diff['removed'] is None:
-            fo = open(report_file, "a")
-            # for dif in diff:
-            fo.write("{0}-table \"{1}\" diff is: ".format(self.current_time,self.tab_name) + str(diff) + "\n")
-            fo.close()
+        if target == {}:
+            print("TARGET IS NULL.")
+            content = "{0}-table \"{1}\" has no incremental data since {2}.\n".format(self.current_time, self.tab_name,
+                                                                                      self.max_date)
+            self._write_report(report_file, content)
+        else:
+            print("TARGET IS NOT NULL.")
+            diff = compare(source, target)
+            if not diff['changed'] is None or not diff['added'] is None or diff['removed'] is None:
+                content = "{0}-table \"{1}\" diff is: ".format(self.current_time, self.tab_name) + str(diff) + "\n"
+                self._write_report(report_file, content)
         source_csv.close()
         target_csv.close()
 
-    def _load_csv(self):
-        self.data_csv(SOURCE_DSN_DICT, "source.csv")
-        self.data_csv(TARGET_DSN_DICT, "target.csv")
-
     def report(self):
         try:
-            # self._load_csv()
+            print("table: {1} max_date: {0}".format(self.max_date, self.tab_name))
+            self._load_csv()
             self.compare()
         except Exception as e:
             raise CompareException('对比报告失败，原因：{0}'.format(e))
