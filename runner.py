@@ -53,5 +53,3 @@ class TestRunner:
 
 if __name__ == '__main__':
     TestRunner().run()
-    #     f = dbcp("t1")
-    #     f.db_row_compare()

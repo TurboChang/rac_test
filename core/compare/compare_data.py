@@ -3,10 +3,8 @@
 
 import csv
 import datetime
-
 import cx_Oracle
 from csv_diff import load_csv, compare
-
 from core.conf.sql_config import *
 from core.exception.related_exception import CompareException
 
