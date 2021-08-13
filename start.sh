@@ -1,6 +1,9 @@
 #!/bin/bash
 # author TurboChang
 
+py_3=$(which python3)
+runner=runner.py
+
 while [ 1 ]
   p_ops=$1
   p_batch=$2
@@ -8,9 +11,9 @@ while [ 1 ]
   do
     if [ $p_ops != "compare" ];
     then
-      /usr/local/bin/python3 /data/rac_test-main/runner.py --ops $p_ops --db Oracle --batch $p_batch
+      $py_3 $runner --ops $p_ops --db Oracle --batch $p_batch
     else
-      /usr/local/bin/python3 /data/rac_test-main/runner.py --ops $p_ops
+      $py_3 $runner --ops $p_ops
     fi
     sleep $p_time
   done
