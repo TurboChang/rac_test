@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-
+# author TurboChang
 
 class RegressionException(Exception):
     """异常基类"""

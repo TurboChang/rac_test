@@ -1,7 +1,16 @@
 #!/bin/bash
-while [ 1 ]
-do
+# author TurboChang
 
-read -t 60
-/Library/Frameworks/Python.framework/Versions/3.9/bin/python3 /Users/changliuxin/Programs/datapipeline/rac_test/runner.py --ops insert --db Oracle --batch 10000
-done
+while [ 1 ]
+  p_ops=$1
+  p_batch=$2
+  p_time=$3
+  do
+    if [ $p_ops != "compare" ];
+    then
+      /usr/local/bin/python3 /data/rac_test-main/runner.py --ops $p_ops --db Oracle --batch $p_batch
+    else
+      /usr/local/bin/python3 /data/rac_test-main/runner.py --ops $p_ops
+    fi
+    sleep $p_time
+  done
