@@ -1,10 +1,2 @@
-2021-08-12 11:11:44-table "t1" diff is: {'added': [], 'removed': [], 'changed': [{'key': '586', 'changes': {'COL_DATE': ['2021-08-11 15:52:07', '2021-08-11 15:52:06']}}, {'key': '656', 'changes': {'COL_DATE': ['2021-08-11 15:52:08', '2021-08-11 15:52:06']}}, {'key': '686', 'changes': {'COL_DATE': ['2021-08-11 15:52:26', '2021-08-11 15:52:06']}}], 'columns_added': [], 'columns_removed': []}
-2021-08-12 11:12:06-table "t2" diff is: {'added': [], 'removed': [], 'changed': [{'key': '586', 'changes': {'COL_DATE': ['2021-08-11 15:52:07', '2021-08-11 15:52:06']}}, {'key': '656', 'changes': {'COL_DATE': ['2021-08-11 15:52:08', '2021-08-11 15:52:06']}}, {'key': '686', 'changes': {'COL_DATE': ['2021-08-11 15:52:26', '2021-08-11 15:52:06']}}], 'columns_added': [], 'columns_removed': []}
-2021-08-12 11:13:31-table "t1" diff is: {'added': [], 'removed': [], 'changed': [{'key': '586', 'changes': {'COL6': ['fi.cn', '惠州路u座'], 'COL7': ['2021-08-11 15:52:07', 'fi.cn']}}], 'columns_added': ['COL_DATE'], 'columns_removed': []}
-2021-08-12 11:13:31-table "t2" diff is: {'added': [], 'removed': [], 'changed': [{'key': '586', 'changes': {'COL6': ['fi.cn', '惠州路u座'], 'COL7': ['2021-08-11 15:52:07', 'fi.cn']}}], 'columns_added': ['COL_DATE'], 'columns_removed': []}
-2021-08-12 12:03:14-table "t1" has no incremental data since 2021-08-11 19:03:43.
-2021-08-12 12:03:19-table "t2" has no incremental data since 2021-08-11 19:03:45.
-2021-08-13 10:58:42-table "t1" diff is: {'added': [], 'removed': [], 'changed': [], 'columns_added': [], 'columns_removed': []}
-2021-08-13 10:58:47-table "t2" diff is: {'added': [], 'removed': [], 'changed': [], 'columns_added': [], 'columns_removed': []}
-2021-08-13 10:59:01-table "t1" diff is: {'added': [], 'removed': [], 'changed': [], 'columns_added': [], 'columns_removed': []}
-2021-08-13 10:59:05-table "t2" diff is: {'added': [], 'removed': [], 'changed': [], 'columns_added': [], 'columns_removed': []}
+2021-08-16 16:22:35-table "t1" diff is: {'added': [], 'removed': [], 'changed': [{'key': '1522205', 'changes': {'COL_DATE': ['2021-08-16 16:18:43', '2021-08-16 16:18:434']}}], 'columns_added': [], 'columns_removed': []}
+2021-08-16 16:22:35-table "t2" diff is: {'added': [], 'removed': [], 'changed': [{'key': '1522205', 'changes': {'COL_DATE': ['2021-08-16 16:18:43', '2021-08-16 16:18:434']}}], 'columns_added': [], 'columns_removed': []}
