@@ -32,3 +32,7 @@ class MainException(RegressionException):
 class CompareException(RegressionException):
     """FACTORY路径为找到"""
     pass
+
+class EmailException(RegressionException):
+    """FACTORY路径为找到"""
+    pass
