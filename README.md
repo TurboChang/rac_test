@@ -1,5 +1,5 @@
 # rac_test
-# author TurboChang
+### Author: TurboChang
 
 ### 框架tree
 ```angular2html
@@ -35,6 +35,8 @@
 |____runner.py
 |____requirements.txt
 |____clean_arch.sh
+|____start.sh
+
 ```
 
 ### 文件夹结构介绍
@@ -51,23 +53,32 @@ core.logics.db_param:   Faker数据以及解析测试计划(excel)
 core.logics.db_factory: 增量数据写入/数据清除
 core.mail.send_mail:    发送差异数据邮件          
 runner:                 框架执行脚本
-clean_arch:             删除7天前的Oracle归档日志
+clean_arch:             删除的Oracle归档日志
+start:                  启动脚本
 ```
 
 ### runner.py使用说明
 ```angular2html
-usage: runner.py [-h] [--ops [{insert,update,trunc,compare}]] [--db DB] [--batch BATCH]
+usage: runner.py [-h] [--ops [insert,update,trunc,compare]] [--db DB] [--batch BATCH]
 
 DataPipeline Runner 用法 通过指定以下参数执行自动化增量数据写入
 
 optional arguments:
   -h, --help            show this help message and exit
-  --ops [{insert,update,trunc,compare}]
+  --ops [insert,update,trunc,compare]
                         param 4: 执行指定操作(写入/清空数据). (default: None)
   --db DB, -d DB        param 1: 执行指定测试数据库类型. (default: Oracle)
   --batch BATCH, -b BATCH
                         param 3: 执行指定BATCH大小. (default: 2000)
 
 ``
+```
+
+### start.sh使用说明
+```angular2html
+/bin/bash ./start.sh compare null 600
+/bin/bash ./start.sh update 1000 600
+/bin/bash ./start.sh insert 1000 300
+/bin/bash ./start.sh trunc 1000 300
 ```
 

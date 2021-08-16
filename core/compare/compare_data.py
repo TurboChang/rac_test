@@ -72,17 +72,14 @@ class CompareData:
         source = load_csv(source_csv, key="ID")
         target = load_csv(target_csv, key="ID")
         if target == {}:
-            # print(target)
             print("TARGET IS NULL.")
             content = "{0}-table \"{1}\" has no incremental data since {2}.\n".format(self.current_time, self.tab_name,
                                                                                       self.max_date)
             self._write_report(report_file, content)
         else:
-            # print(target)
             print("TARGET IS NOT NULL.")
             diff = compare(source, target)
             diff_str = "{'added': [], 'removed': [], 'changed': [], 'columns_added': [], 'columns_removed': []}"
-            # if not diff['changed'] is None or not diff['added'] is None or diff['removed'] is None:
             if str(diff) != diff_str:
                 content = "{0}-table \"{1}\" diff is: ".format(self.current_time, self.tab_name) + str(diff) + "\n"
                 self._write_report(report_file, content)

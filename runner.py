@@ -26,7 +26,6 @@ class TestRunner:
         parser = argparse.ArgumentParser(description=USAGE, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
         parser.add_argument("--ops", choices={"insert", "update", "trunc", "compare"}, nargs="?", const="CONST", help=OP_USAGE, type=str)
         parser.add_argument("--db", "-d", default="Oracle", help=DB_USAGE)
-        # parser.add_argument("--tab", "-t", default="rac_test", help=TB_USAGE)
         parser.add_argument("--batch", "-b", default=2000, help=BT_USAGE)
         return parser
 

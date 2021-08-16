@@ -1,2 +1,0 @@
-2021-08-16 16:22:35-table "t1" diff is: {'added': [], 'removed': [], 'changed': [{'key': '1522205', 'changes': {'COL_DATE': ['2021-08-16 16:18:43', '2021-08-16 16:18:434']}}], 'columns_added': [], 'columns_removed': []}
-2021-08-16 16:22:35-table "t2" diff is: {'added': [], 'removed': [], 'changed': [{'key': '1522205', 'changes': {'COL_DATE': ['2021-08-16 16:18:43', '2021-08-16 16:18:434']}}], 'columns_added': [], 'columns_removed': []}
