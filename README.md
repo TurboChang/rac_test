@@ -4,6 +4,11 @@
 ### 框架tree
 ```angular2html
 |____core
+| |____compare
+| | |______init__.py
+| | |____compare_data.py
+| | |____source.csv
+| | |____target.csv
 | |____dbs
 | | |____db_oracle.py
 | | |______init__.py
@@ -15,10 +20,17 @@
 | | |____db_factory.py
 | |____conf
 | | |____TestPlan.xlsx
+| | |____sql_config.py
 | | |______init__.py
 | |____exception
 | | |______init__.py
 | | |____related_exception.py
+| |____repport
+| | |______init__.py
+| | |____compare.txt
+| |____mail
+| | |______init__.py
+| | |____send_mail.py
 |____README.md
 |____runner.py
 |____requirements.txt
@@ -37,6 +49,7 @@ core.report:            记录Oracle数据源与目的地测试表的数据差�
 core.logics.db_driver:  装饰器
 core.logics.db_param:   Faker数据以及解析测试计划(excel)
 core.logics.db_factory: 增量数据写入/数据清除
+core.mail.send_mail:    发送差异数据邮件          
 runner:                 框架执行脚本
 clean_arch:             删除7天前的Oracle归档日志
 ```
