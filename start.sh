@@ -19,7 +19,6 @@ while [ 1 ]
       $py_3 $runner --ops $p_ops --db Oracle --batch $p_batch | log
     else
       $py_3 $runner --ops $p_ops | log
-      $py_3 core/mail/send_mail.py
     fi
     sleep $p_time
   done

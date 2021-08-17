@@ -34,8 +34,9 @@ sourceRowQueryString = "select * from " + "{0} where col_date >= to_date('{1}', 
 
 # EMail
 host = "smtp.exmail.qq.com"
-subject = u"对比差异报告"
-to_mail = "clx@datapipeline.com"
+subject = u"DataPipeline Agent-长测数据对比差异报告"
+to_mail = ["clx@datapipeline.com"]
+cc_mail = ["hanlin@datapipeline.com"]
 from_mail = "clx@datapipeline.com"
 mail_content ="""<table width="1500" border="0" cellspacing="0" cellpadding="4">
         <tr>

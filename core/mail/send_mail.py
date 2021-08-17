@@ -37,11 +37,12 @@ class DpMail:
             msg = MIMEText(contents, "html", "utf-8")
             msg['Subject'] = subject
             msg['From'] = from_mail
-            msg['To'] = to_mail
+            msg['To'] = ','.join(to_mail)
+            msg["Cc"] = ','.join(cc_mail)
             server = smtplib.SMTP_SSL(host)
             server.connect(host, "465")
             server.login("clx@datapipeline.com", "P6HhQ7kcPfVZpxmV")
-            server.sendmail(from_mail, to_mail, msg.as_string())
+            server.sendmail(from_mail, to_mail + cc_mail, msg.as_string())
             server.quit()
             print(str(self.current_time) + "-邮件发送成功.")
         else:

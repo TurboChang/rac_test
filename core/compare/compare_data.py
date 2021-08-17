@@ -81,7 +81,7 @@ class CompareData:
     def report(self):
         try:
             print("table: {1} max_date: {0}".format(self.max_date, self.tab_name))
-            self._load_csv()
+            # self._load_csv()
             self.compare()
         except Exception as e:
             raise CompareException('对比报告失败，原因：{0}'.format(e))
