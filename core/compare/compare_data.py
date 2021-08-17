@@ -7,10 +7,7 @@ import cx_Oracle
 from csv_diff import load_csv, compare
 from core.conf.sql_config import *
 from core.exception.related_exception import CompareException
-# from core.mail.send_mail import *
 
-report_file = r"core/report/compare.txt"
-compare_path = r"core/compare/"
 
 class CompareData:
 
@@ -61,8 +58,8 @@ class CompareData:
         self.data_csv(SOURCE_DSN_DICT, "source.csv")
         self.data_csv(TARGET_DSN_DICT, "target.csv")
 
-    def _write_report(self, file, content):
-        fo = open(file, "a")
+    def _write_report(self, file, content, ops):
+        fo = open(file, ops)
         fo.write(content)
         fo.close()
 
@@ -71,19 +68,13 @@ class CompareData:
         target_csv = open(compare_path + "target.csv", "r")
         source = load_csv(source_csv, key="ID")
         target = load_csv(target_csv, key="ID")
-        if target == {}:
-            print("TARGET IS NULL.")
-            content = "{0}-table \"{1}\" has no incremental data since {2}.\n".format(self.current_time, self.tab_name,
-                                                                                      self.max_date)
-            self._write_report(report_file, content)
-        else:
+        if target != {}:
             print("TARGET IS NOT NULL.")
             diff = compare(source, target)
             diff_str = "{'added': [], 'removed': [], 'changed': [], 'columns_added': [], 'columns_removed': []}"
             if str(diff) != diff_str:
                 content = "{0}-table \"{1}\" diff is: ".format(self.current_time, self.tab_name) + str(diff) + "\n"
-                self._write_report(report_file, content)
-                print("added is : " + str(diff['added']))
+                self._write_report(report_file, content, "a")
         source_csv.close()
         target_csv.close()
 

@@ -44,6 +44,7 @@
 assets:                 测试资产文件，包括：测试计划文件，测试数据文件，等其他数据文件
 core:                   框架核心
 core.conf.TestPlan:     用来接收增量的Oracle数据库(配置excel)
+core.conf.sql_config:   Metadata SQL与邮件发送模板
 core.dbs:               Oracle基础类(连接池/执行)
 core.exception:         异常类
 core.compare:           对比Oracle数据源与目的地测试表的数据差异的行

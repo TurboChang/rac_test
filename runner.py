@@ -5,7 +5,9 @@ from core.logics.db_factory import *
 from core.compare.compare_data import CompareData as CD
 from core.exception.related_exception import MainException
 from core.conf.sql_config import *
+from core.mail.send_mail import DpMail
 import argparse
+import os
 
 USAGE = """
 DataPipeline Runner 用法
@@ -21,6 +23,10 @@ class TestRunner:
 
     def __init__(self):
         self.parser = self._prepare_cli()
+        self.args = self.parser.parse_args()
+        self.ops = self.args.ops
+        self.parent_path = os.getcwd()
+        self.report_file = self.parent_path + r"/core/report/compare.txt"
 
     def _prepare_cli(self):
         parser = argparse.ArgumentParser(description=USAGE, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -31,15 +37,14 @@ class TestRunner:
 
     def _parse_arguments(self, tab):
         args = self.parser.parse_args()
-        if args.ops:
-            ops = args.ops
-            if ops == "insert":
+        if self.ops:
+            if self.ops == "insert":
                 return create_increment_data(args.db, tab, args.batch)
-            elif ops == "update":
+            elif self.ops == "update":
                 return update_data(args.db, tab, args.batch)
-            elif ops == "trunc":
+            elif self.ops == "trunc":
                 return truncate_data(args.db, tab, args.batch)
-            elif ops == "compare":
+            elif self.ops == "compare":
                 f = CD(tab)
                 return f.report()
             else:
@@ -48,7 +53,9 @@ class TestRunner:
     def run(self):
         for tab in SOURCE_TABLE_NAME:
             self._parse_arguments(tab)
-
+        if os.path.exists(self.report_file) and self.ops == "compare":
+            g = DpMail()
+            g.sendmail()
 
 if __name__ == '__main__':
     TestRunner().run()
